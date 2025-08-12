@@ -14,7 +14,6 @@ A modern salary management system built with Next.js 14, Laravel backend, and sh
 
 ## Tech Stack
 
-### Frontend
 - **Next.js 14** - React framework
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
@@ -25,36 +24,6 @@ A modern salary management system built with Next.js 14, Laravel backend, and sh
 - **Yup** - Form validation
 - **Lucide React** - Icons
 
-### Backend
-- **Laravel** - PHP framework
-- **MySQL** - Database
-- **REST API** - Communication
-
-## Project Structure
-
-```
-task-frontend/
-├── app/
-│   ├── api/auth/[...nextauth]/route.ts  # NextAuth configuration
-│   ├── auth/login/page.tsx              # Login page
-│   ├── dashboard/page.tsx               # Main dashboard (protected)
-│   ├── public/page.tsx                  # Public salary submission
-│   ├── layout.tsx                       # Root layout
-│   └── page.tsx                         # Home page (redirects)
-├── components/
-│   ├── ui/                              # shadcn/ui components
-│   ├── admin-panel.tsx                  # Admin dashboard
-│   ├── edit-salary-dialog.tsx           # Edit salary modal
-│   └── salary-form.tsx                  # Salary submission form
-├── lib/
-│   ├── api.ts                           # API service functions
-│   ├── hooks.ts                         # TanStack Query hooks
-│   ├── types.ts                         # TypeScript types
-│   ├── validation.ts                    # Yup validation schemas
-│   └── utils.ts                         # Utility functions
-├── middleware.ts                        # Route protection
-└── components.json                      # shadcn/ui configuration
-```
 
 ## Setup Instructions
 
@@ -67,7 +36,7 @@ task-frontend/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/hunain-parekh/task-frontend.git
    cd task-frontend
    ```
 
@@ -88,16 +57,16 @@ task-frontend/
 
 ### For Users
 1. Visit `http://localhost:3000`
-2. Click "Continue as Guest (Submit Salary)" or go to `/public`
-3. Fill in your salary details:
+2. Fill in your salary details:
    - Full Name
    - Email (must be unique)
    - Salary in local currency
    - Currency code
-4. Submit the form
+3. Submit the form
 
 ### For Administrators
 1. Visit `http://localhost:3000`
+1. Click on Login Button
 2. Sign in with demo credentials:
    - **Email**: admin@example.com
    - **Password**: admin123
@@ -112,9 +81,9 @@ task-frontend/
 The frontend expects these Laravel API endpoints:
 
 - `POST /api/salary/submit` - Submit salary data
-- `GET /api/salary/all` - Get all salary records (admin)
-- `PUT /api/salary/{id}` - Update salary record (admin)
-- `DELETE /api/salary/{id}` - Delete salary record (admin)
+- `GET /api/admin/salary/list` - Get all salary records (admin)
+- `PUT /api/admin/salary/{id}` - Update salary record (admin)
+- `DELETE /api/admin/salary/{id}` - Delete salary record (admin)
 
 ## Authentication Flow
 
@@ -165,6 +134,7 @@ Create a `.env.local` file:
 ```env
 NEXTAUTH_SECRET=your-secret-key
 NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
 ## Production Deployment
@@ -179,14 +149,8 @@ NEXTAUTH_URL=http://localhost:3000
    npm start
    ```
 
-## Contributing
+## Author
 
-1. Follow the existing code structure
-2. Use TypeScript for type safety
-3. Implement proper error handling
-4. Add appropriate loading states
-5. Test thoroughly before submitting
-
-## License
-
-This project is licensed under the MIT License.
+**Developer**: Hunain Parekh
+**Email**: hunainparekh85@gmail.com
+**GitHub**: hunain-parekh
