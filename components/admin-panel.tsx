@@ -83,9 +83,9 @@ export function AdminPanel() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center space-x-3">
@@ -152,7 +152,7 @@ export function AdminPanel() {
       {/* Salary Table */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
             <div>
               <CardTitle>Salary Records</CardTitle>
               <CardDescription>
@@ -190,7 +190,7 @@ export function AdminPanel() {
               </div>
 
               {/* Table */}
-              <div className="rounded-md border">
+              <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -236,12 +236,12 @@ export function AdminPanel() {
               </div>
 
               {/* Pagination */}
-              <div className="flex items-center justify-between space-x-2 py-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 sm:space-x-2 py-4">
                 <div className="flex-1 text-sm text-muted-foreground">
                   {table.getFilteredSelectedRowModel().rows.length} of{" "}
                   {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
-                <div className="space-x-2">
+                <div className="flex space-x-2">
                   <Button
                     variant="outline"
                     size="sm"

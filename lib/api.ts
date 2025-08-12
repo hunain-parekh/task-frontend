@@ -1,14 +1,22 @@
 import { SalaryData, SalarySubmitRequest, SalaryUpdateRequest, ApiResponse } from './types'
+import axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:8000/api'
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`
+
+// Create axios instance with default config
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
 
 // Helper function to get auth token from session
 const getAuthToken = async (): Promise<string | null> => {
   try {
     // Try to get token from session
-    const response = await fetch('/api/auth/session')
-    const session = await response.json()
-    return session?.accessToken || null
+    const response = await axios.get('/api/auth/session')
+    return response.data?.accessToken || null
   } catch (error) {
     console.error('Error getting session:', error)
     return null
@@ -19,16 +27,8 @@ export const api = {
   // Submit salary data
   async submitSalary(data: SalarySubmitRequest): Promise<ApiResponse<SalaryData>> {
     try {
-      const response = await fetch(`${API_BASE_URL}/salary/submit`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      const result = await response.json()
-      return result
+      const response = await apiClient.post('/salary/submit', data)
+      return response.data
     } catch (error) {
       return {
         success: false,
@@ -41,21 +41,14 @@ export const api = {
   async getAllSalaries(): Promise<ApiResponse<SalaryData[]>> {
     try {
       const token = await getAuthToken()
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      }
+      const config = token ? {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      } : {}
       
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`
-      }
-
-      const response = await fetch(`${API_BASE_URL}/admin/salary/list`, {
-        method: 'GET',
-        headers,
-      })
-
-      const result = await response.json()
-      return result
+      const response = await apiClient.get('/admin/salary/list', config)
+      return response.data
     } catch (error) {
       return {
         success: false,
@@ -68,22 +61,14 @@ export const api = {
   async updateSalary(id: number, data: SalaryUpdateRequest): Promise<ApiResponse<SalaryData>> {
     try {
       const token = await getAuthToken()
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      }
+      const config = token ? {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      } : {}
       
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`
-      }
-
-      const response = await fetch(`${API_BASE_URL}/admin/salary/${id}`, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify(data),
-      })
-
-      const result = await response.json()
-      return result
+      const response = await apiClient.put(`/admin/salary/${id}`, data, config)
+      return response.data
     } catch (error) {
       return {
         success: false,
@@ -96,25 +81,38 @@ export const api = {
   async deleteSalary(id: number): Promise<ApiResponse<void>> {
     try {
       const token = await getAuthToken()
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      }
+      const config = token ? {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      } : {}
       
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`
-      }
-
-      const response = await fetch(`${API_BASE_URL}/admin/salary/${id}`, {
-        method: 'DELETE',
-        headers,
-      })
-
-      const result = await response.json()
-      return result
+      const response = await apiClient.delete(`/admin/salary/${id}`, config)
+      return response.data
     } catch (error) {
       return {
         success: false,
         message: 'Failed to delete salary data',
+      }
+    }
+  },
+
+  // Logout user
+  async logout(): Promise<ApiResponse<void>> {
+    try {
+      const token = await getAuthToken()
+      const config = token ? {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      } : {}
+      
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/logout`, {}, config)
+      return response.data
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to logout',
       }
     }
   },

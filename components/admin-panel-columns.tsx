@@ -58,14 +58,14 @@ export function useAdminColumns({ onDelete, deleteSalary }: UseAdminColumnsProps
         cell: ({ row }) => {
           const salary = row.original
           return (
-            <div className="flex items-center space-x-3">
-              <Avatar className="h-8 w-8">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <Avatar className="h-6 w-6 sm:h-8 sm:w-8">
                 <AvatarFallback className="text-xs">
                   {getInitials(salary.name)}
                 </AvatarFallback>
               </Avatar>
-              <div>
-                <p className="font-medium">{salary.name}</p>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-sm sm:text-base truncate">{salary.name}</p>
                 <Badge variant="secondary" className="text-xs">
                   {salary.local_currency_code}
                 </Badge>
@@ -95,7 +95,7 @@ export function useAdminColumns({ onDelete, deleteSalary }: UseAdminColumnsProps
           )
         },
         cell: ({ row }) => (
-          <span className="text-sm text-gray-600">{row.getValue('email')}</span>
+          <span className="text-xs sm:text-sm text-gray-600 truncate">{row.getValue('email')}</span>
         ),
       },
       {
@@ -121,7 +121,7 @@ export function useAdminColumns({ onDelete, deleteSalary }: UseAdminColumnsProps
         cell: ({ row }) => {
           const salary = row.original
           return (
-            <span className="font-medium">
+            <span className="font-medium text-xs sm:text-sm">
               {formatCurrency(salary.salary_local_currency, salary.local_currency_code)}
             </span>
           )
@@ -151,7 +151,7 @@ export function useAdminColumns({ onDelete, deleteSalary }: UseAdminColumnsProps
           const salary = row.original
           const amount = parseFloat(salary.salary_in_euros?.toString() || '0')
           return (
-            <span className="font-medium">
+            <span className="font-medium text-xs sm:text-sm">
               €{amount.toLocaleString() || '—'}
             </span>
           )
@@ -181,7 +181,7 @@ export function useAdminColumns({ onDelete, deleteSalary }: UseAdminColumnsProps
           const salary = row.original
           const amount = parseFloat(salary.commission?.toString() || '500')
           return (
-            <span className="font-medium">
+            <span className="font-medium text-xs sm:text-sm">
               €{amount.toLocaleString()}
             </span>
           )
@@ -211,7 +211,7 @@ export function useAdminColumns({ onDelete, deleteSalary }: UseAdminColumnsProps
           const salary = row.original
           const amount = parseFloat(salary.displayed_salary?.toString() || '0')
           return (
-            <span className="font-bold text-green-600">
+            <span className="font-bold text-green-600 text-xs sm:text-sm">
               €{amount.toLocaleString() || '—'}
             </span>
           )

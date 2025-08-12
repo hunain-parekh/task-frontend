@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { LaravelLoginResponse } from "@/lib/types"
+import axios from "axios"
 
 const handler = NextAuth({
   providers: [
@@ -12,18 +13,12 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const response = await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+            email: credentials?.email,
+            password: credentials?.password,
           })
 
-          const result: LaravelLoginResponse = await response.json()
+          const result: LaravelLoginResponse = response.data
 
           if (result.success && result.data) {
             return {

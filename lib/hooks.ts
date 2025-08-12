@@ -88,3 +88,19 @@ export const useDeleteSalary = () => {
     },
   })
 }
+
+// Logout user
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await api.logout()
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to logout')
+      }
+      return response.data
+    },
+    onError: (error: Error) => {
+      console.error('Logout error:', error.message)
+    },
+  })
+}
