@@ -15,16 +15,12 @@ import {
 
 interface HeaderProps {
   title?: string
-  showUserInfo?: boolean
-  showSignOut?: boolean
   onSignOut?: () => void
   children?: React.ReactNode
 }
 
 export function Header({ 
-  title = "Salary Management System", 
-  showUserInfo = true, 
-  showSignOut = true,
+  title = "Salary Management System",
   onSignOut,
   children 
 }: HeaderProps) {
@@ -64,7 +60,7 @@ export function Header({
               </Button>
             </Link>
             
-            {showUserInfo && session && (
+            {session && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
